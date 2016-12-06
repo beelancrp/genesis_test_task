@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Genesis</string>
+
+    <string name="google_custom_search_api_key">AIzaSyDHW1waQw1aM8cQ8r8w-cZ9ngX5rXY1-ao</string>
+    <string name="google_search_code">005254917935128226642:itevvomlo04</string>
+    <string name="bing_search_code">005254917935128226642:tfe0cswueis</string>
+    <string name="lang">en</string>
+
+
+</resources>
