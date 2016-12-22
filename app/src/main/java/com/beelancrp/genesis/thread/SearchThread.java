@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 
-
 public class SearchThread implements Callable<List<SearchItem>> {
 
     private APISearchService mAPISearchService;
@@ -20,15 +19,14 @@ public class SearchThread implements Callable<List<SearchItem>> {
     private String searchCode;
     private String apiKey;
     private int startPosition;
+    private int offset;
 
-    private List<SearchResponse> mResponse;
-
-    public SearchThread(String searchText, String searchCode, String apiKey, int startPosition) {
+    public SearchThread(String searchText, int startPosition, int offset) {
         this.searchText = searchText;
-        this.searchCode = searchCode;
-        this.apiKey = apiKey;
+        this.searchCode = "005254917935128226642:itevvomlo04";
+        this.apiKey = "AIzaSyDHW1waQw1aM8cQ8r8w-cZ9ngX5rXY1-ao";
         this.startPosition = startPosition;
-        this.mResponse = new ArrayList<>();
+        this.offset = offset;
 
         mAPISearchService = UniversalAPIService.createRetrofitService(APISearchService.class);
     }
@@ -36,8 +34,7 @@ public class SearchThread implements Callable<List<SearchItem>> {
     @Override
     public List<SearchItem> call() throws Exception {
 
-        mResponse.add(doRequest(searchText, startPosition, 10));
-        mResponse.add(doRequest(searchText, startPosition + 10, 5));
+        SearchResponse mResponse = doRequest(searchText, startPosition, offset);
 
         return setSearchItems(mResponse);
     }
@@ -55,17 +52,15 @@ public class SearchThread implements Callable<List<SearchItem>> {
         return null;
     }
 
-    private List<SearchItem> setSearchItems(List<SearchResponse> items) {
+    private List<SearchItem> setSearchItems(SearchResponse item) {
         List<SearchItem> tempList = new ArrayList<>();
-        for (SearchResponse item : items) {
-            try {
-                if (item.getQueries().getNextPage().get(0).getTotalResults().equals("0")) {
-                    return tempList;
-                }
-                tempList.addAll(item.getSearchItems());
-            } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
-                e.printStackTrace();
+        try {
+            if (item.getQueries().getNextPage().get(0).getTotalResults().equals("0")) {
+                return tempList;
             }
+            tempList.addAll(item.getSearchItems());
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
 
         }
         return tempList;
