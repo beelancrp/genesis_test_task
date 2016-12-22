@@ -1,9 +1,10 @@
 package com.beelancrp.genesis.thread;
 
-import com.beelancrp.genesis.api.SearchService;
-import com.beelancrp.genesis.api.UniversalService;
+import com.beelancrp.genesis.api.APISearchService;
+import com.beelancrp.genesis.api.UniversalAPIService;
 import com.beelancrp.genesis.data.SearchItem;
 import com.beelancrp.genesis.data.SearchResponse;
+import com.beelancrp.genesis.services.LoadListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,14 +16,14 @@ import java.util.List;
 
 public class WorkThread extends Thread {
 
-    private SearchService mRozetkaService;
+    private APISearchService mRozetkaService;
 
     private String searchText;
     private String searchCode;
     private String apiKey;
     private int startPosition;
 
-    private LoadDataListener listener;
+    private LoadListener listener;
 
     private List<SearchResponse> mResponse;
     private List<SearchItem> searchItems;
@@ -30,14 +31,14 @@ public class WorkThread extends Thread {
     public WorkThread(String searchEngineCode,
                       String apiKey,
                       int startPosition,
-                      LoadDataListener listener) {
+                      LoadListener listener) {
         this.searchCode = searchEngineCode;
         this.apiKey = apiKey;
         this.startPosition = startPosition;
         this.listener = listener;
         this.searchItems = new ArrayList<>();
         this.mResponse = new ArrayList<>();
-        mRozetkaService = UniversalService.createRetrofitService(SearchService.class);
+        mRozetkaService = UniversalAPIService.createRetrofitService(APISearchService.class);
     }
 
 
