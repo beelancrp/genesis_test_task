@@ -10,7 +10,7 @@ import retrofit2.http.Query;
  * Created by beeLAN on 03.12.2016.
  */
 
-public interface SearchService {
+public interface APISearchService {
 
     @GET("customsearch/v1")
     Call<SearchResponse> getSearchResponse(@Query("q") String terms,

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by beeLAN on 03.12.2016.
  */
 
-public class UniversalService {
+public class UniversalAPIService {
     static String SERVICE_ENDPOINT = "https://www.googleapis.com/";
 
     public static <T> T createRetrofitService(final Class<T> clazz) {
